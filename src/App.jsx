@@ -20,27 +20,25 @@ const currentRating = 4.8;
 const totalReviews  = 21;
 const q2Goal        = 10; // new reviews goal per Brian
 
-// Placeholder monthly data — will be replaced with live API data
 const monthlyReviews = [
-  { month: "Jan 26", reviews: 0 },
-  { month: "Feb 26", reviews: 1 },
-  { month: "Mar 26", reviews: 2 },
-  { month: "Apr 26", reviews: 0 },
+  { month: "Jan 26", reviews: 4  },
+  { month: "Feb 26", reviews: 3  },
+  { month: "Mar 26", reviews: 3  },
+  { month: "Apr 26", reviews: 10 },
 ];
 
-// Placeholder recent reviews — will be replaced with live API data
 const recentReviews = [
-  { rating: 5, date: "Mar 2026", snippet: "Frank and his team were incredibly helpful navigating our transition. Highly recommend." },
-  { rating: 5, date: "Feb 2026", snippet: "Elite Consulting Partners provided outstanding guidance. Professional, knowledgeable, and responsive." },
-  { rating: 5, date: "Jan 2026", snippet: "Exceptional service. Frank's expertise in advisor transitions is unmatched in the industry." },
+  { rating: 5, date: "Apr 2026", snippet: "Best in the business. Well informed, direct and forward thinking. Couldn't be where we are today without Tricia and Frank!!" },
+  { rating: 5, date: "Apr 2026", snippet: "Working with Elite Consulting Partners was the best experience. Transitioning out of a 25+ year career as a financial advisor was a big decision. Working with Tricia Fischer was the best decision I made." },
+  { rating: 5, date: "Apr 2026", snippet: "Our experience with Stacey Frank and her team at Elite Consulting Partners was excellent. We were not even looking to make a change. Despite that we ended up making a change." },
 ];
 
 const ratingDist = [
-  { stars: "5★", count: 18 },
-  { stars: "4★", count: 2  },
-  { stars: "3★", count: 1  },
+  { stars: "5★", count: 20 },
+  { stars: "4★", count: 0  },
+  { stars: "3★", count: 0  },
   { stars: "2★", count: 0  },
-  { stars: "1★", count: 0  },
+  { stars: "1★", count: 1  },
 ];
 
 function StarRating({ rating, size = 16 }) {
@@ -77,7 +75,7 @@ function Clock() {
 }
 
 export default function App() {
-  const newReviewsQ2 = monthlyReviews.slice(1).reduce((a,b) => a + b.reviews, 0);
+  const newReviewsQ2 = monthlyReviews.slice(3).reduce((a,b) => a + b.reviews, 0);
   const pct = Math.round((newReviewsQ2 / q2Goal) * 100);
 
   return (
@@ -101,7 +99,7 @@ export default function App() {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of Apr 23, 2026</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of May 8, 2026</div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: MUTED }}>
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#fbbc04", animation: "pulse 2s infinite" }} />
             API Pending Approval
@@ -136,7 +134,7 @@ export default function App() {
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 2, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Google Business</div>
             <div style={{ fontSize: 13, color: "#a0aab4", marginBottom: 6 }}>Total Reviews</div>
             <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 52, fontWeight: 700, color: "#f0f6fc", lineHeight: 1, marginBottom: 10 }}>{totalReviews}</div>
-            <div style={{ fontSize: 11, color: MUTED }}>As of Apr 23, 2026</div>
+            <div style={{ fontSize: 11, color: MUTED }}>As of May 8, 2026</div>
           </div>
 
           {/* Q2 New Reviews */}
@@ -194,14 +192,14 @@ export default function App() {
               </div>
             ))}
             <div style={{ marginTop: 16, padding: "10px 14px", background: GOOGLE_GREEN_DIM, border: `1px solid rgba(52,168,83,0.2)`, borderRadius: 8, fontSize: 11, color: GOOGLE_GREEN }}>
-              ✓ 85% of reviews are 5-star
+              ✓ 95% of reviews are 5-star
             </div>
           </div>
 
           {/* Recent reviews */}
           <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "20px 24px" }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Recent Reviews</div>
-            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Sample data · Live reviews pending API approval</div>
+            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Most recent · Apr 2026</div>
             {recentReviews.map((r, i) => (
               <div key={i} style={{ padding: "10px 12px", borderRadius: 8, background: "rgba(255,255,255,0.02)", border: `1px solid ${BORDER}`, marginBottom: 8 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
@@ -223,8 +221,8 @@ export default function App() {
       {/* FOOTER */}
       <div style={{ borderTop: `1px solid ${BORDER}`, padding: "12px 32px", display: "flex", justifyContent: "space-between", fontFamily: "'DM Mono', monospace", fontSize: 10, color: MUTED, marginTop: 24 }}>
         <span>Elite Partners Group · Google Reviews Dashboard · Elite Consulting Partners</span>
-        <span>Source: Google Business Profile · Manual + API (pending) · Apr 23, 2026</span>
-        <span>4.8 ★ · 21 reviews · 609 interactions</span>
+        <span>Source: Google Business Profile · Manual · May 8, 2026</span>
+        <span>4.8 ★ · 21 reviews · 95% five-star</span>
       </div>
     </div>
   );
