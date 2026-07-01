@@ -15,23 +15,26 @@ const MUTED    = "#8892a4";
 const BORDER   = "rgba(255,255,255,0.07)";
 const SURFACE  = "#111827";
 
-// Current baseline from Google Business screenshot
+// Data pulled via Apify Google Maps Reviews Scraper (placeId ChIJC5RZzTL7b0ARSBaXcWo_E38), as of Jun 30, 2026
 const currentRating = 4.8;
 const totalReviews  = 22;
 const q2Goal        = 10; // new reviews goal per Brian
 
 const monthlyReviews = [
-  { month: "Jan 26", reviews: 4  },
-  { month: "Feb 26", reviews: 3  },
-  { month: "Mar 26", reviews: 3  },
-  { month: "Apr 26", reviews: 10 },
+  { month: "Jan 26", reviews: 2  },
+  { month: "Feb 26", reviews: 4  },
+  { month: "Mar 26", reviews: 10 },
+  { month: "Apr 26", reviews: 0  },
   { month: "May 26", reviews: 1  },
+  { month: "Jun 26", reviews: 0  },
 ];
 
 const recentReviews = [
-  { rating: 5, date: "May 2026", snippet: "Stacey and her team at Elite Consulting Partners were wonderful to work with throughout our firm's due diligence process. Stacey was readily available at all hours of the day and ran with whatever requests I had." },
-  { rating: 5, date: "May 2026", snippet: "Stacey Frank truly takes the time to understand your priorities and connects you with excellent resources. Her expertise helps you save time and find the right fit. Highly recommend!" },
-  { rating: 5, date: "May 2026", snippet: "Working with Elite Consulting Partners was the best experience. Transitioning out of a 25+ year career as a financial advisor was a big decision. Working with Tricia Fischer was the best decision I made." },
+  { rating: 5, date: "May 11, 2026",  snippet: "5-star rating. No written review." },
+  { rating: 5, date: "Mar 27, 2026",  snippet: "My team worked with Julie Mizerany and she was able to help us compare all the offers that came in from the different firms. Julie was patient to work with us as we navigated this process for over a year." },
+  { rating: 5, date: "Mar 23, 2026",  snippet: "Working with Elite Consulting Partners was the best experience. Transitioning out of a 25+ year career as a financial advisor was a big decision. Working with Tricia Fischer was the best decision I made." },
+  { rating: 5, date: "Mar 20, 2026",  snippet: "Stacey Frank truly takes the time to understand your priorities and connects you with excellent resources. Her expertise helps you save time and find the right fit. Highly recommend!" },
+  { rating: 5, date: "Mar 19, 2026",  snippet: "Stacey and her team at Elite Consulting Partners were wonderful throughout our firm's due diligence process. She was readily available at all hours and ran with whatever requests I had." },
 ];
 
 const ratingDist = [
@@ -100,7 +103,7 @@ export default function App() {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of May 19, 2026</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of Jun 8, 2026</div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: MUTED }}>
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#fbbc04", animation: "pulse 2s infinite" }} />
             API Pending Approval
@@ -135,7 +138,7 @@ export default function App() {
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 2, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Google Business</div>
             <div style={{ fontSize: 13, color: "#a0aab4", marginBottom: 6 }}>Total Reviews</div>
             <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 52, fontWeight: 700, color: "#f0f6fc", lineHeight: 1, marginBottom: 10 }}>{totalReviews}</div>
-            <div style={{ fontSize: 11, color: MUTED }}>As of May 19, 2026</div>
+            <div style={{ fontSize: 11, color: MUTED }}>As of Jun 8, 2026</div>
           </div>
 
           {/* Q2 New Reviews */}
@@ -200,7 +203,7 @@ export default function App() {
           {/* Recent reviews */}
           <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "20px 24px" }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Recent Reviews</div>
-            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Most recent · May 2026</div>
+            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Most recent · May 11, 2026 · No new in Jun</div>
             {recentReviews.map((r, i) => (
               <div key={i} style={{ padding: "10px 12px", borderRadius: 8, background: "rgba(255,255,255,0.02)", border: `1px solid ${BORDER}`, marginBottom: 8 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
@@ -222,7 +225,7 @@ export default function App() {
       {/* FOOTER */}
       <div style={{ borderTop: `1px solid ${BORDER}`, padding: "12px 32px", display: "flex", justifyContent: "space-between", fontFamily: "'DM Mono', monospace", fontSize: 10, color: MUTED, marginTop: 24 }}>
         <span>Elite Partners Group · Google Reviews Dashboard · Elite Consulting Partners</span>
-        <span>Source: Google Business Profile · Manual · May 19, 2026</span>
+        <span>Source: Google Business Profile · Manual · Jun 8, 2026</span>
         <span>4.8 ★ · 22 reviews · 95% five-star</span>
       </div>
     </div>
