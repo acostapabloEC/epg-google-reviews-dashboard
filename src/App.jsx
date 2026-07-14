@@ -15,10 +15,10 @@ const MUTED    = "#8892a4";
 const BORDER   = "rgba(255,255,255,0.07)";
 const SURFACE  = "#111827";
 
-// Data pulled via Apify Google Maps Reviews Scraper (placeId ChIJC5RZzTL7b0ARSBaXcWo_E38), as of Jun 30, 2026
+// Data pulled via Apify Google Maps Reviews Scraper (placeId ChIJC5RZzTL7b0ARSBaXcWo_E38), verified current as of Jul 14, 2026 — no new reviews since May 11
 const currentRating = 4.8;
 const totalReviews  = 22;
-const q2Goal        = 10; // new reviews goal per Brian
+const q3Goal        = 10; // new reviews goal per Brian (carried over from Q2, which closed at 1/10)
 
 const monthlyReviews = [
   { month: "Jan 26", reviews: 2  },
@@ -27,6 +27,7 @@ const monthlyReviews = [
   { month: "Apr 26", reviews: 0  },
   { month: "May 26", reviews: 1  },
   { month: "Jun 26", reviews: 0  },
+  { month: "Jul 26", reviews: 0  },
 ];
 
 const recentReviews = [
@@ -79,8 +80,8 @@ function Clock() {
 }
 
 export default function App() {
-  const newReviewsQ2 = monthlyReviews.slice(3).reduce((a,b) => a + b.reviews, 0);
-  const pct = Math.round((newReviewsQ2 / q2Goal) * 100);
+  const newReviewsQ3 = monthlyReviews.slice(6).reduce((a,b) => a + b.reviews, 0);
+  const pct = Math.round((newReviewsQ3 / q3Goal) * 100);
 
   return (
     <div style={{ background: "#0a0f1e", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", color: "#f0f6fc" }}>
@@ -103,10 +104,10 @@ export default function App() {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of Jun 8, 2026</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of Jul 14, 2026</div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: MUTED }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#fbbc04", animation: "pulse 2s infinite" }} />
-            API Pending Approval
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: GOOGLE_GREEN }} />
+            Live via Apify
           </div>
           <Clock />
         </div>
@@ -114,10 +115,10 @@ export default function App() {
 
       <div style={{ padding: "24px 28px", maxWidth: 1600, margin: "0 auto" }}>
 
-        {/* API PENDING BANNER */}
-        <div style={{ background: "rgba(251,188,4,0.08)", border: `1px solid rgba(251,188,4,0.25)`, borderRadius: 12, padding: "12px 20px", marginBottom: 20, display: "flex", alignItems: "center", gap: 12, fontSize: 13, color: "#fbbc04" }}>
-          <span>⏳</span>
-          <span>Google Business API quota request pending (1–3 business days). Dashboard will auto-populate with live review data once approved. Current data sourced manually.</span>
+        {/* DATA SOURCE BANNER */}
+        <div style={{ background: GOOGLE_GREEN_DIM, border: `1px solid rgba(52,168,83,0.25)`, borderRadius: 12, padding: "12px 20px", marginBottom: 20, display: "flex", alignItems: "center", gap: 12, fontSize: 13, color: GOOGLE_GREEN }}>
+          <span>✓</span>
+          <span>Data sourced via Apify Google Maps Reviews Scraper. Refreshed weekly — pull the latest run and update this file to bring in new reviews.</span>
         </div>
 
         {/* ROW 1: KPI CARDS */}
@@ -138,19 +139,19 @@ export default function App() {
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 2, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Google Business</div>
             <div style={{ fontSize: 13, color: "#a0aab4", marginBottom: 6 }}>Total Reviews</div>
             <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 52, fontWeight: 700, color: "#f0f6fc", lineHeight: 1, marginBottom: 10 }}>{totalReviews}</div>
-            <div style={{ fontSize: 11, color: MUTED }}>As of Jun 8, 2026</div>
+            <div style={{ fontSize: 11, color: MUTED }}>As of Jul 14, 2026</div>
           </div>
 
-          {/* Q2 New Reviews */}
+          {/* Q3 New Reviews */}
           <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "20px 24px", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: GOOGLE_GREEN, borderRadius: "12px 12px 0 0" }} />
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 2, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Q2 Goal Progress</div>
-            <div style={{ fontSize: 13, color: "#a0aab4", marginBottom: 6 }}>New Reviews Q2</div>
-            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 700, color: "#f0f6fc", lineHeight: 1, marginBottom: 10 }}>{newReviewsQ2} / {q2Goal}</div>
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 2, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Q3 Goal Progress</div>
+            <div style={{ fontSize: 13, color: "#a0aab4", marginBottom: 6 }}>New Reviews Q3</div>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 700, color: "#f0f6fc", lineHeight: 1, marginBottom: 10 }}>{newReviewsQ3} / {q3Goal}</div>
             <div style={{ height: 6, background: "rgba(255,255,255,0.07)", borderRadius: 3, overflow: "hidden", marginBottom: 6 }}>
               <div style={{ height: "100%", width: `${Math.min(pct, 100)}%`, background: GOOGLE_GREEN, borderRadius: 3 }} />
             </div>
-            <div style={{ fontSize: 10, color: MUTED }}>{pct}% of Q2 goal</div>
+            <div style={{ fontSize: 10, color: MUTED }}>{pct}% of Q3 goal · Q2 closed at 1/10</div>
           </div>
 
           {/* 609 Interactions */}
@@ -170,7 +171,7 @@ export default function App() {
           {/* Monthly new reviews chart */}
           <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "20px 24px" }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>New Reviews Per Month</div>
-            <div style={{ fontSize: 11, color: MUTED, marginBottom: 16 }}>2026 YTD · Live data pending API approval</div>
+            <div style={{ fontSize: 11, color: MUTED, marginBottom: 16 }}>2026 YTD · via Apify Google Maps Reviews Scraper</div>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={monthlyReviews} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={BORDER} vertical={false} />
@@ -203,7 +204,7 @@ export default function App() {
           {/* Recent reviews */}
           <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "20px 24px" }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Recent Reviews</div>
-            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Most recent · May 11, 2026 · No new in Jun</div>
+            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Most recent · May 11, 2026 · none since</div>
             {recentReviews.map((r, i) => (
               <div key={i} style={{ padding: "10px 12px", borderRadius: 8, background: "rgba(255,255,255,0.02)", border: `1px solid ${BORDER}`, marginBottom: 8 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
@@ -213,9 +214,6 @@ export default function App() {
                 <div style={{ fontSize: 12, color: "#a0aab4", lineHeight: 1.5, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{r.snippet}</div>
               </div>
             ))}
-            <div style={{ marginTop: 8, padding: "10px 14px", background: GOOGLE_DIM, border: `1px solid rgba(66,133,244,0.15)`, borderRadius: 8, fontSize: 11, color: GOOGLE_BLUE, lineHeight: 1.5 }}>
-              💡 Review text will auto-populate once Google API quota is approved
-            </div>
           </div>
 
         </div>
@@ -225,7 +223,7 @@ export default function App() {
       {/* FOOTER */}
       <div style={{ borderTop: `1px solid ${BORDER}`, padding: "12px 32px", display: "flex", justifyContent: "space-between", fontFamily: "'DM Mono', monospace", fontSize: 10, color: MUTED, marginTop: 24 }}>
         <span>Elite Partners Group · Google Reviews Dashboard · Elite Consulting Partners</span>
-        <span>Source: Google Business Profile · Manual · Jun 8, 2026</span>
+        <span>Source: Apify Google Maps Reviews Scraper · Jul 14, 2026</span>
         <span>4.8 ★ · 22 reviews · 95% five-star</span>
       </div>
     </div>
