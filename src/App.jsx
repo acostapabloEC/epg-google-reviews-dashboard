@@ -15,9 +15,9 @@ const MUTED    = "#8892a4";
 const BORDER   = "rgba(255,255,255,0.07)";
 const SURFACE  = "#111827";
 
-// Data pulled via Apify Google Maps Reviews Scraper (placeId ChIJC5RZzTL7b0ARSBaXcWo_E38), verified current as of Aug 3, 2026 — no new reviews since May 11; total review count dropped 22→20 (2 reviews no longer present on Google)
+// Data pulled via Apify Google Maps Reviews Scraper (placeId ChIJC5RZzTL7b0ARSBaXcWo_E38), verified current as of Oct 5, 2026 — new 5-star review from Anika Gulati on Oct 4; total review count 20→21
 const currentRating = 4.8;
-const totalReviews  = 20;
+const totalReviews  = 21;
 const q3Goal        = 10; // new reviews goal per Brian (carried over from Q2, which closed at 1/10)
 
 const monthlyReviews = [
@@ -28,18 +28,21 @@ const monthlyReviews = [
   { month: "May 26", reviews: 1  },
   { month: "Jun 26", reviews: 0  },
   { month: "Jul 26", reviews: 0  },
+  { month: "Aug 26", reviews: 0  },
+  { month: "Sep 26", reviews: 0  },
+  { month: "Oct 26", reviews: 1  },
 ];
 
 const recentReviews = [
+  { rating: 5, date: "Oct 4, 2026",  snippet: "5-star rating. No written review." },
   { rating: 5, date: "May 11, 2026",  snippet: "5-star rating. No written review." },
   { rating: 5, date: "Mar 27, 2026",  snippet: "My team worked with Julie Mizerany and she was able to help us compare all the offers that came in from the different firms. Julie was patient to work with us as we navigated this process for over a year." },
   { rating: 5, date: "Mar 23, 2026",  snippet: "Working with Elite Consulting Partners was the best experience. Transitioning out of a 25+ year career as a financial advisor was a big decision. Working with Tricia Fischer was the best decision I made." },
   { rating: 5, date: "Mar 20, 2026",  snippet: "Stacey Frank truly takes the time to understand your priorities and connects you with excellent resources. Her expertise helps you save time and find the right fit. Highly recommend!" },
-  { rating: 5, date: "Mar 20, 2026",  snippet: "Nate was great. Appreciate his knowledge and insight." },
 ];
 
 const ratingDist = [
-  { stars: "5★", count: 19 },
+  { stars: "5★", count: 20 },
   { stars: "4★", count: 0  },
   { stars: "3★", count: 0  },
   { stars: "2★", count: 0  },
@@ -80,7 +83,7 @@ function Clock() {
 }
 
 export default function App() {
-  const newReviewsQ3 = monthlyReviews.slice(6).reduce((a,b) => a + b.reviews, 0);
+  const newReviewsQ3 = monthlyReviews.slice(6, 9).reduce((a,b) => a + b.reviews, 0);
   const pct = Math.round((newReviewsQ3 / q3Goal) * 100);
 
   return (
@@ -104,7 +107,7 @@ export default function App() {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of Aug 3, 2026</div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", background: GOOGLE_DIM, color: GOOGLE_BLUE, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(66,133,244,0.2)` }}>As of Oct 5, 2026</div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: MUTED }}>
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: GOOGLE_GREEN }} />
             Live via Apify
@@ -139,7 +142,7 @@ export default function App() {
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: 2, color: MUTED, textTransform: "uppercase", marginBottom: 8 }}>Google Business</div>
             <div style={{ fontSize: 13, color: "#a0aab4", marginBottom: 6 }}>Total Reviews</div>
             <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 52, fontWeight: 700, color: "#f0f6fc", lineHeight: 1, marginBottom: 10 }}>{totalReviews}</div>
-            <div style={{ fontSize: 11, color: MUTED }}>As of Aug 3, 2026</div>
+            <div style={{ fontSize: 11, color: MUTED }}>As of Oct 5, 2026</div>
           </div>
 
           {/* Q3 New Reviews */}
@@ -186,7 +189,7 @@ export default function App() {
           {/* Rating distribution */}
           <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "20px 24px" }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>Rating Distribution</div>
-            <div style={{ fontSize: 11, color: MUTED, marginBottom: 20 }}>20 total reviews · Google Business</div>
+            <div style={{ fontSize: 11, color: MUTED, marginBottom: 20 }}>{totalReviews} total reviews · Google Business</div>
             {ratingDist.map((r, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                 <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: GOOGLE_YELLOW, width: 24 }}>{r.stars}</span>
@@ -204,7 +207,7 @@ export default function App() {
           {/* Recent reviews */}
           <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "20px 24px" }}>
             <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Recent Reviews</div>
-            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Most recent · May 11, 2026 · none since</div>
+            <div style={{ fontSize: 11, color: MUTED, marginBottom: 14 }}>Most recent · Oct 4, 2026</div>
             {recentReviews.map((r, i) => (
               <div key={i} style={{ padding: "10px 12px", borderRadius: 8, background: "rgba(255,255,255,0.02)", border: `1px solid ${BORDER}`, marginBottom: 8 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
@@ -223,8 +226,8 @@ export default function App() {
       {/* FOOTER */}
       <div style={{ borderTop: `1px solid ${BORDER}`, padding: "12px 32px", display: "flex", justifyContent: "space-between", fontFamily: "'DM Mono', monospace", fontSize: 10, color: MUTED, marginTop: 24 }}>
         <span>Elite Partners Group · Google Reviews Dashboard · Elite Consulting Partners</span>
-        <span>Source: Apify Google Maps Reviews Scraper · Aug 3, 2026</span>
-        <span>4.8 ★ · 20 reviews · 95% five-star</span>
+        <span>Source: Apify Google Maps Reviews Scraper · Oct 5, 2026</span>
+        <span>4.8 ★ · 21 reviews · 95% five-star</span>
       </div>
     </div>
   );
