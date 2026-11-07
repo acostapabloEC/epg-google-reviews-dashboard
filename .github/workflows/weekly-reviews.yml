@@ -1,0 +1,55 @@
+name: Weekly Google Reviews update
+
+# Replaces the laptop-based Claude scheduled task `google-reviews-weekly-update`.
+# Apify pull -> compare with src/App.jsx -> edit only if changed -> build -> push (Vercel auto-deploys)
+# -> verify -> email. Secrets: APIFY_TOKEN, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, EMAIL_FROM
+on:
+  schedule:
+    - cron: '0 10 * * 1' # Mondays 10:00 UTC (7:00am Argentina, UTC-3)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Pull + edit + build only; do not push'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-reviews
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      DRY_RUN: ${{ inputs.dry_run || 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Pull, edit, build, push
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: |
+          git config user.name "Pablo Acosta"
+          git config user.email "pabloacosta@eliteconsultingpartners.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          RESULT_DIR="$RUNNER_TEMP/res" node scripts/weekly_reviews.mjs
+
+      - name: Email result
+        if: always()
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          npm install --no-save --no-audit --no-fund nodemailer@6 >/dev/null 2>&1
+          RESULT_DIR="$RUNNER_TEMP/res" node scripts/notify.mjs
